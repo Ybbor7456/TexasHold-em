@@ -168,14 +168,145 @@ function straight(cards){ //5 cards in sequence, any suit
 }
 
 function t0k(cards){ // three of a kind, 3 cards of the same value in any suit. 
+    const valueMap = {
+        '2': 2, '3': 3, '4': 4, '5': 5,
+        '6': 6, '7': 7, '8': 8, '9': 9,
+        '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14
+    };
+    const values = {}   
+    let triplets = null;  
 
+    for(let card of cards){
+        const numericValue = valueMap[card.value.toString()];
+        if (!numericValue) continue;
+        values[numericValue] = (values[numericValue] || 0) + 1;
+    }
+
+   for (let value in values) {
+        const num = Number(value);
+        if (values[num] >= 3) {
+            if (!triplets || num > triplets) {
+                triplets = num;
+            } }}
+
+    if (triplets !== null){
+        const kc = cards
+        .map(card => valueMap[card.value.toString()])
+        .filter(val => val !== triplets)
+        .sort((a, b) => b - a)
+        .slice(0, 2); // Get top 2 kickers
+                return {
+                isMatch: true,
+                threeValue: triplets,
+                kc: kc
+                    };}
+return {isMatch: false}
+}
+
+function twopair(cards){ // 2-2
+    const valueMap = {
+        '2': 2, '3': 3, '4': 4, '5': 5,
+        '6': 6, '7': 7, '8': 8, '9': 9,
+        '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14
+    };
+    const values = {}
+    //let doublets = null;
+ 
+    for(let card of cards){
+        const numericValue = valueMap[card.value.toString()];
+        if (!numericValue) continue;
+        values[numericValue] = (values[numericValue] || 0) + 1;
+    }
+
+    const pairValues = Object.keys(values)
+        .map(Number)
+        .filter(val => values[val] >= 2)
+        .sort((a, b) => b - a);
+        if (pairValues.length >= 2) {
+            const topTwoPairs = pairValues.slice(0, 2);
     
+            // Find the kicker (not in pair values)
+            const kicker = cards
+                .map(card => valueMap[card.value.toString()])
+                .filter(val => !topTwoPairs.includes(val))
+                .sort((a, b) => b - a)[0] || null;
+    
+            return {
+                isMatch: true,
+                pairs: topTwoPairs,
+                kicker: kicker
+            };
+        }
+    
+        return { isMatch: false };
+}
 
-} 
+function pair(cards){ 
+    const valueMap = {
+        '2': 2, '3': 3, '4': 4, '5': 5,
+        '6': 6, '7': 7, '8': 8, '9': 9,
+        '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14
+    };
+    const values = {}
+    let doublets = null; 
 
+    for(let card of cards){
+        const numericValue = valueMap[card.value.toString()];
+        if (!numericValue) continue;
+        values[numericValue] = (values[numericValue] || 0) + 1;
+    }
+    for (let value in values) {
+        const num = Number(value);
+        if (values[num] >= 2) {
+            if (!doublets || num > doublets) {
+                doublets = num;
+            } }}
+        if (doublets !== null){
+                const kc = cards
+                .map(card => valueMap[card.value.toString()])
+                .filter(val => val !== doublets)
+                .sort((a, b) => b - a)
+                .slice(0, 3); // Get top 3 kickers
+                        return {
+                        isMatch: true,
+                        pairValue: doublets,
+                        kc: kc
+                            };}
+        return {isMatch: false}
 
+}
 
+function highcard(cards){ // any 5 card hand that is none of the above. Takes highest card value in hand
+    const valueMap = {
+        '2': 2, '3': 3, '4': 4, '5': 5,
+        '6': 6, '7': 7, '8': 8, '9': 9,
+        '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14
+    };
+    const cardValues = cards
+    .map(card => valueMap[card.value.toString()])
+    .filter(v => v !== undefined)
+    .sort((a, b) => b - a) // High to low
+    .slice(0, 5); // Only top 5 values matter for high card
 
+return {
+    isMatch: true,  // Always a match since every hand has a high card
+    highCards: cardValues
+};
+}
+
+function tiebreak(hand1,hand2){
+
+    const resultA = tiebreak(handA);
+    const resultB = tiebreak(handB);
+    const cardsA = resultA.highCards;
+    const cardsB = resultB.highCards;
+
+    for (let i =0; i < Math.min(cardsA.length, cardsB.length); i++) {
+        if (cardsA[i] > cardsB[i]) return 'Hand A wins';
+        if (cardsB[i] > cardsA[i]) return 'Hand B wins';
+    }
+    return 'Tie';
+}
 
 
 
