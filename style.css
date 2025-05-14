@@ -1,0 +1,58 @@
+body {
+    text-align: center;
+    font-family: Arial, 'Times New Roman'; 
+    background-color: rgb(5, 74, 5);
+    color: white;
+}
+
+  label {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: rgb(209, 4, 4);
+    font-size: 18px;
+    display: block;
+    margin: 20px 0 10px;
+  }
+  
+  h1 {
+    color: rgb(209, 4, 4);
+    text-shadow: 2px 2px 5px #000; /* X, Y, blur, color */
+  }
+
+  #numPlayers {
+    margin-bottom: 20px;
+  }
+  
+  button {
+    /* background-color: violet; */
+    color: blueviolet;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: crosshair;
+  }
+
+  .corner-image {
+    position: fixed;
+    width: 100px;
+    height: auto;
+    z-index: 1000;
+  }
+  
+  .top-left {
+    top: 0;
+    left: 0;
+  }
+  
+  .top-right {
+    top: 0;
+    right: 0;
+  }
+  
+  .bottom-left {
+    bottom: 0;
+    left: 0;
+  }
+  
+  .bottom-right {
+    bottom: 0;
+    right: 0;
+  }
