@@ -28,6 +28,17 @@ function shuffle(array) {
     return array;
 }
 
+// fisher yates + secure
+function secureShuffle(array){
+    const cryptoArray = new Uint32Array(array.length);
+    window.crypto.getRandomValues(cryptoArray);
+    for(let i = array.length -1; i > 0; i--){
+        const j = cryptoArray[i] % (i+1);
+        [array[i],array[j]] = [array[j],array[i]]; // fisher-yates + secure
+    }
+    return array;
+} */
+
 
 function deal(deck, numPlayers) {   // deals 2 cards to each player
     const hands = [];           
@@ -51,7 +62,8 @@ rl.question('Enter number of players (2–10): ', (input) => {    //user input f
         return;
     }
 
-    const deck = shuffle(createDeck());     
+    const deck = secureShuffe(createDeck);
+    //const deck = shuffle(createDeck());     
     const hands = deal(deck, numPlayers);   
     const communityCards = dealCommunityCards(deck);
 
